@@ -6,5 +6,6 @@ const upload = require('./cloudinary.config');
 
 router.get('/', userRoutes.base)
 router.post('/register', userRoutes.create)
+router.post('/login', userRoutes.login)
 
 module.exports = router;

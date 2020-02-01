@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt')
+const SALT_FACTOR = 10
 
 const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
@@ -68,11 +70,33 @@ const userSchema = new Schema(
         ret.id = doc.id;
         delete ret._id;
         delete ret.__v;
+        delete ret.password
         return ret;
       }
     }
   }
 );
+
+userSchema.pre('save', function (next) {
+    const user = this
+
+    if (user.isModified('password')){
+        bcrypt.genSalt(SALT_FACTOR)
+        .then(salt => {
+            return bcrypt.hash(user.password, salt)
+            .then(hash => {
+                user.password = hash
+                next()
+            })
+        }).catch(next)
+    }else{
+        next()
+    }
+})
+
+userSchema.methods.checkPassword = function(password) {
+    return bcrypt.compare(password, this.password)
+}
 
 
 const User = mongoose.model('User', userSchema);
