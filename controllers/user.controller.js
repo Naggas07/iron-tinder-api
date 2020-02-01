@@ -55,3 +55,17 @@ module.exports.getUser = (req, res, next) => {
     })
     .catch(next)
 }
+
+module.exports.updateUser = (req, res, next) => {
+    const {id} = req.params
+
+    User.findByIdAndUpdate(id, req.body, {new: true})
+    .then(user => {
+        if(!user){
+            res.status(404).json({message: 'User not found'})
+        }else{
+            res.status(200).json(user)
+        }
+    })
+    .catch(next)
+}
