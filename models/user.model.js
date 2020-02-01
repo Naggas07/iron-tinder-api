@@ -10,56 +10,67 @@ const userSchema = new Schema(
     name: {
       type: String,
       required: true,
-      minlength: 3
+      minlength: 3,
+      default: null
     },
     email: {
       type: String,
       required: true,
       minlength: 5,
-      match: EMAIL_PATTERN
+      match: EMAIL_PATTERN,
+      default: null
     },
     userName: {
       type: String,
       required: true,
-      minlength: 3
+      minlength: 3,
+      default: null
     },
     age: {
       type: Number,
-      min: 18
+      min: 18,
+      default: null
     },
     profilePicture: {
       type: String,
+      default: null,
       default: null
     },
     gender: {
       type: String,
-      enum: ["Male", "Female"],
-      default: undefined
+      enum: ["Male", "Female", null],
+      default: null
     },
     password: {
       type: String,
       required: true,
-      minlength: 5
+      minlength: 5,
+      default: null
     },
     description: {
-      type: String
+      type: String,
+      default: null
     },
     location: {
-      type: String
+      type: String,
+      default: null
     },
     rangeLocation: {
-      type: Number
+      type: Number,
+      default: null
     },
     ageRange: {
       min: {
         type: Number,
         min: 18,
-        max: 98
+        max: 98,
+        default: null
       },
       max: {
         type: Number,
         min: 19,
-        max: 99
+        max: 99,
+        default: null
       }
     }
   },
