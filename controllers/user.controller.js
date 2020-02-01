@@ -59,11 +59,16 @@ module.exports.getUser = (req, res, next) => {
 module.exports.updateUser = (req, res, next) => {
     const {id} = req.params
 
-    User.findByIdAndUpdate(id, req.body, {new: true})
+    const userUpdated = req.body
+
+    console.log(req.file)
+
+    User.findByIdAndUpdate(id, userUpdated, {new: true})
     .then(user => {
         if(!user){
             res.status(404).json({message: 'User not found'})
         }else{
+            user.profilePicture = req.file ? req.file.url : user.profilePicture
             res.status(200).json(user)
         }
     })
