@@ -1,0 +1,8 @@
+POST /users/:userid/:status
+
+new Match({
+    user1: req.currentUser._id,
+    user2: req.params.userid,
+    validationUser1: req.params.status === 'like',
+    validationUser2: false
+})
